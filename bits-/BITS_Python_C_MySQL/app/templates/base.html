@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}BITS — Bench Inventory & Tracking System{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body class="workbench-bg">
+  <div class="background-shade"></div>
+  <header class="site-header glass">
+    <a class="brand" href="{{ url_for('dashboard') if session.get('user_id') else url_for('login') }}"><span class="brand-mark">B</span><span>BITS<small>BENCH INVENTORY & TRACKING SYSTEM</small></span></a>
+    {% if signed_in_user %}<div class="header-right"><span class="user-chip">● {{ signed_in_user.name }}</span><form method="post" action="{{ url_for('logout') }}"><button class="btn btn-quiet" type="submit">Sign out</button></form></div>{% else %}<span class="live-label"><i></i> LOCAL INVENTORY SYSTEM</span>{% endif %}
+  </header>
+  <main class="page-shell {% block shell_class %}{% endblock %}">
+    {% with messages = get_flashed_messages(with_categories=true) %}{% if messages %}<div class="flash-stack">{% for category,message in messages %}<div class="flash flash-{{ category }}">{{ message }}</div>{% endfor %}</div>{% endif %}{% endwith %}
+    {% block content %}{% endblock %}
+  </main>
+  <footer class="site-footer">BITS <span>•</span> Electronics inventory workspace <span>•</span> MySQL connected locally</footer>
+  {% block scripts %}{% endblock %}
+</body>
+</html>

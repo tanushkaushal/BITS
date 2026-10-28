@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block title %}{{ 'Create account' if mode == 'register' else 'Sign in' }} · BITS{% endblock %}
+{% block shell_class %}auth-shell{% endblock %}
+{% block content %}
+<section class="auth-layout">
+  <div class="hero-copy"><div class="eyebrow"><span class="eyebrow-dot"></span> ELECTRONICS BENCH MANAGEMENT</div><h1>Every component.<br><span>In its place.</span></h1><p>Keep your electronics workbench organised with a clear, searchable inventory for components, quantities and storage locations.</p><div class="hero-stats"><div><strong>01</strong><span>Track stock</span></div><div><strong>02</strong><span>Organise categories</span></div><div><strong>03</strong><span>Find it faster</span></div></div></div>
+  <div class="auth-card glass">
+    <div class="card-kicker">WELCOME TO THE WORKBENCH</div><h2>{{ 'Create your account' if mode == 'register' else 'Welcome back' }}</h2><p class="muted">{{ 'Set up your personal component inventory.' if mode == 'register' else 'Sign in to access your inventory dashboard.' }}</p>
+    <form method="post" class="form-stack">
+      {% if mode == 'register' %}<label>Full name<input name="name" placeholder="e.g. Tanush" autocomplete="name" required maxlength="100" value="{{ request.form.get('name','') }}"></label>{% endif %}
+      <label>Email address<input name="email" type="email" placeholder="you@example.com" autocomplete="email" required value="{{ request.form.get('email','') }}"></label>
+      <label>Password<input name="password" type="password" placeholder="{{ 'At least 8 characters' if mode == 'register' else 'Your password' }}" autocomplete="{{ 'new-password' if mode == 'register' else 'current-password' }}" minlength="8" required></label>
+      {% if mode == 'register' %}<label>Confirm password<input name="confirm_password" type="password" placeholder="Re-enter password" autocomplete="new-password" minlength="8" required></label>{% endif %}
+      <button class="btn btn-primary btn-wide" type="submit">{{ 'Create BITS account' if mode == 'register' else 'Sign in to BITS' }} <span>↗</span></button>
+    </form>
+    <div class="auth-switch">{{ 'Already have an account?' if mode == 'register' else 'New to BITS?' }} <a href="{{ url_for('login') if mode == 'register' else url_for('register') }}">{{ 'Sign in' if mode == 'register' else 'Create account' }}</a></div>
+    <div class="secure-note"><span>◈</span> Passwords are hashed before storage</div>
+  </div>
+</section>
+{% endblock %}
